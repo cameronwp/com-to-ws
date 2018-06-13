@@ -1,0 +1,23 @@
+{
+  "name": "com-to-ws",
+  "version": "0.0.1",
+  "description": "COM port to websockets",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cameronwp/com-to-ws.git"
+  },
+  "author": "Cameron Pittman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cameronwp/com-to-ws/issues"
+  },
+  "homepage": "https://github.com/cameronwp/com-to-ws#readme",
+  "dependencies": {
+    "serialport": "^6.2.0"
+  }
+}
