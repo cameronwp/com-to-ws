@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/cameronwp/com-to-ws#readme",
   "dependencies": {
+    "jest": "^23.1.0",
+    "lodash": "^4.17.10",
     "serialport": "^6.2.0"
   }
 }
