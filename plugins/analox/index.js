@@ -1,5 +1,10 @@
 const _ = require('lodash');
 
+/**
+ * Turn raw data into lines of text.
+ * @param {Buffer} data
+ * @returns {string[]}
+ */
 function getLines(data) {
   const line = data.toString('utf-8');
   // REM1 and REM2 lines may or may not be concatted together
@@ -25,30 +30,30 @@ function validate(line) {
   const foundChecksum = result[1];
   const index = result.index;
   const calculatedChecksum = checksum(line.substring(0, index - 2));
-  if (foundChecksum !== calculatedChecksum) {
-    console.error(
-      `Checksum fail: found: ${foundChecksum}, calculated ${calculatedChecksum}`
-    );
-  } else {
-    console.log('Good checksum');
-  }
+  return foundChecksum === calculatedChecksum;
 }
 
 /**
- * Parse data stream into structured information.
+ * Parse data buffer from COM port into structured information.
  * @param {Buffer} data
+ * @returns {Object} set of {datetime, ...sensor: value}
  */
 function parse(data) {
-  const lines = getLines(data);
-  lines.forEach(validate);
-  // try {
-  //   lines.forEach(l => validate);
-  // } catch (e) {
-  //   return console.error(e);
-  // }
+  // note the swap for datetime - this is to allow capturing datetime the same
+  // as we capture other values below
+  const lines = getLines(data)
+    .filter(validate)
+    .map(l => l.replace('>', 'datetime='));
 
-  // const pairs = _.flatMap(lines, l => l.split(', '));
-  // console.log(pairs);
+  const values = _
+    .chain(lines)
+    .map(line => line.split(', '))
+    .flattenDeep()
+    .map(v => v.split('='))
+    .fromPairs()
+    .value();
+
+  return values;
 }
 
 module.exports = { getLines, checksum, validate, parse };

@@ -7,5 +7,8 @@ port.on('open', () => {
   console.log('Waiting for data...');
 });
 
-// just echo whatever is received
-port.on('data', plugin.parse);
+port.on('data', data => {
+  const values = plugin.parse(data);
+  // TODO: send to websockets
+  console.log(values);
+});
