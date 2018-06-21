@@ -8,6 +8,7 @@ const _ = require('lodash');
 function getLines(data) {
   const line = data.toString('utf-8');
   // REM1 and REM2 lines may or may not be concatted together
+  // either way, this gets rid of the trailing CR
   return line.split(String.fromCharCode(13)).filter(l => l.length > 0);
 }
 
@@ -27,6 +28,9 @@ function checksum(str) {
 function validate(line) {
   const ckre = /CK\=(.{4})$/i;
   const result = ckre.exec(line);
+  if (!result) {
+    return false;
+  }
   const foundChecksum = result[1];
   const index = result.index;
   const calculatedChecksum = checksum(line.substring(0, index - 2));

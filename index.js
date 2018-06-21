@@ -1,6 +1,21 @@
+const express = require('express');
 const SerialPort = require('serialport');
 const plugin = require('./plugins/analox/index');
 const port = new SerialPort('/tmp/tty2');
+
+const app = express();
+require('express-ws')(app);
+const wsRouter = express.Router();
+
+wsRouter.ws('/echo', (ws, req) => {
+  ws.on('message', msg => {
+    console.log(msg);
+    ws.send(msg);
+  });
+});
+
+app.use('/ws', wsRouter);
+app.listen(4000);
 
 port.on('error', console.error);
 port.on('open', () => {
@@ -10,5 +25,5 @@ port.on('open', () => {
 port.on('data', data => {
   const values = plugin.parse(data);
   // TODO: send to websockets
-  console.log(values);
+  // console.log(values);
 });

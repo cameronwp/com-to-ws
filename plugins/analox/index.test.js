@@ -22,7 +22,7 @@ describe('#checksum', () => {
 });
 
 describe('#validate', () => {
-  test('it returns an false if a line is not valid', () => {
+  test("it returns false if a checksum doesn't match", () => {
     //
   });
 });
