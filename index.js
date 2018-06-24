@@ -39,9 +39,9 @@ port.on('open', () => {
   console.log('Waiting for data...');
 });
 
-port.on('data', data => {
-  const values = plugin.parse(data);
-  wss.broadcast(values);
-  // TODO: send to websockets
-  // console.log(values);
-});
+// port.on('data', data => {
+//   const values = plugin.parse(data);
+//   wss.broadcast(values);
+// });
+
+port.on('data', wss.broadcast);
